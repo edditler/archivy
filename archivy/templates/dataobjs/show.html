@@ -264,7 +264,7 @@
                 for (i=0; i < uniq_tags.length; i++) {
                   let new_tag = document.createElement("span")
                   new_tag.classList.add("post-tag")
-                  new_tag.innerHTML = uniq_tags[i]
+                  new_tag.innerHTML = uniq_tags[i].slice(1);
                   post_tags.appendChild(new_tag)
                 }
               }, // action
