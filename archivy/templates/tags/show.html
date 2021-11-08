@@ -12,6 +12,10 @@
       {% endfor %}
     {% endif %}
   {% endfor %}
+
+  {% for res in frontmatter_results %}
+    <li><a href="/dataobj/{{ res['id'] }}">{{ res['title'] }}</li></a>
+  {% endfor %}
 </ul>
 <script>
   document.querySelectorAll(".markdown-result").forEach((match) => {
