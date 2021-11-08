@@ -23,10 +23,13 @@ def get_all_tags(force=False):
     tags = []
     if newly_created or force:
         tags = list(query_ripgrep_tags())
-        db.update(operations.set("val", tags), Query().name == "tag_list")
+        frontmatter_tags = get_frontmatter_tags()
+        all_tags = list(set(tags + frontmatter_tags))
+
+        db.update(operations.set("val", all_tags), Query().name == "tag_list")
     else:
-        tags = list_query[0]["val"]
-    return tags
+        all_tags = list_query[0]["val"]
+    return all_tags
 
 
 def add_tag_to_index(tag_name):
@@ -36,3 +39,12 @@ def add_tag_to_index(tag_name):
         db = helpers.get_db()
         db.update(operations.set("val", all_tags), Query().name == "tag_list")
     return True
+
+
+def get_frontmatter_tags():
+    all_dataobjs = data.get_items(structured=False, load_content=False)
+    frontmatter_tags = []
+    for dataobj in all_dataobjs:
+        for tag in dataobj['tags']:
+            frontmatter_tags.append(tag)
+    return frontmatter_tags
