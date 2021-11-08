@@ -48,3 +48,13 @@ def get_frontmatter_tags():
         for tag in dataobj['tags']:
             frontmatter_tags.append(tag)
     return frontmatter_tags
+
+
+def get_databoj_with_tag(tag_name):
+    all_dataobjs = data.get_items(structured=False, load_content=False)
+    dataobjs = []
+    for dataobj in all_dataobjs:
+        if tag_name in dataobj['tags']:
+            dataobjs.append(dataobj)
+
+    return dataobjs
