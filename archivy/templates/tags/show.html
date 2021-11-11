@@ -2,21 +2,47 @@
 
 {% block content %}
 {% include "markdown-parser.html" %}
-<h2>{{ tag_name }} ({{ search_result | length }})</h2>
-<ul>
+<h2>{{ tag_name }} ({{ n_total }})</h2>
+
+<ul class="search-results">
   {% for res in search_result %}
-    <li><a href="/dataobj/{{ res['id'] }}">{{ res['title'] }}</li></a>
-    {% if "matches" in res %}
-      {% for match in res["matches"] %}
-        <div class="markdown-result">{{ match }}</div>
-      {% endfor %}
-    {% endif %}
+    <li class="search-result">
+      <span class="search-result-path"> {{ res.dataobj.path }} > </span>
+      <a href="/dataobj/{{ res.dataobj.id }}" class="search-result-title">
+        {{ res.dataobj.title }}
+      </a>
+      <div class="metadata-tags post-tags">
+      {% for tag in res.dataobj.tags %}{# 
+         #}<a href="/tags/{{ tag }}">{# 
+           #}<span class="post-tag">{{ tag }}</span>{# 
+         #}</a>{# 
+       #}{% endfor %}
+      </div>
+      {% if "matches" in res %}
+        {% for match in res["matches"] %}
+          <div class="markdown-result">{{ match }}</div>
+        {% endfor %}
+      {% endif %}
+    </li>
   {% endfor %}
 
-  {% for res in frontmatter_results %}
-    <li><a href="/dataobj/{{ res['id'] }}">{{ res['title'] }}</li></a>
+  {% for dataobj in frontmatter_results %}
+    <li class="search-result">
+      <span class="search-result-path"> {{ dataobj.path }} > </span>
+      <a href="/dataobj/{{ dataobj.id }}"  class="search-result-title">
+        {{ dataobj.title }}
+      </a>
+      <div class="post-tags">
+      {% for tag in dataobj.tags %}{# 
+         #}<a href="/tags/{{ tag }}">{# 
+           #}<span class="post-tag">{{ tag }}</span>{# 
+         #}</a>{# 
+       #}{% endfor %}
+      </div>
+    </li>
   {% endfor %}
 </ul>
+
 <script>
   document.querySelectorAll(".markdown-result").forEach((match) => {
     match.innerHTML = window.parser.customRender(`> ${match.innerHTML.trim()}`)
