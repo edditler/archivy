@@ -144,8 +144,15 @@ def show_tag(tag_name):
         )
         return redirect("/")
 
+    # Include the path in the search results
     search_results = search(f"#{tag_name}#", strict=True)
+    for s in search_results:
+        s['dataobj'] = data.get_item(s['id'])
+
+    # Take the frontmatter results as they are
     frontmatter_results = get_databoj_with_tag(tag_name)
+
+    n_total = len(frontmatter_results) + len(search_results)
 
     return render_template(
         "tags/show.html",
@@ -153,6 +160,7 @@ def show_tag(tag_name):
         tag_name=tag_name,
         search_result=search_results,
         frontmatter_results=frontmatter_results,
+        n_total=n_total,
     )
 
 
