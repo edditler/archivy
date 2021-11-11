@@ -208,7 +208,7 @@ def show_dataobj(dataobj_id):
         post_title_form=post_title_form,
         move_form=move_form,
         tag_list=tag_list,
-        embedded_tags=embedded_tags,
+        embedded_tags=sorted(embedded_tags),
         titles=titles,
     )
 
