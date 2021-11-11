@@ -47,16 +47,18 @@
     {% endif %}
 
     <div class="embedded-tags post-tags">
-      {% for tag in embedded_tags %}
-        <a href="/tags/{{ tag }}">
-          <span class="post-tag">{{ tag }}</span>
-        </a>
-      {% endfor %}
-    </div>
-    <div class="metadata-tags post-tags">
-      {% for tag in dataobj["tags"] %}
-    <span class="post-tag">{{ tag }}</span>
-      {% endfor %}
+    {% for tag in embedded_tags %}{# 
+       #}<a href="/tags/{{ tag }}">{# 
+         #}<span class="post-tag">{{ tag }}</span>{# 
+       #}</a>{# 
+     #}{% endfor %}
+    </div>{# 
+  #}<div class="metadata-tags post-tags">
+    {% for tag in dataobj["tags"] %}{# 
+       #}<a href="/tags/{{ tag }}">{# 
+         #}<span class="post-tag">{{ tag }}</span>{# 
+       #}</a>{# 
+     #}{% endfor %}
     </div>
     <span class="post-date">{{ dataobj['date'] }}</span>
 
@@ -262,12 +264,19 @@
                   all_tags.push(matches[i][0].trim())
                 }
                 post_tags.innerHTML = ""
-                let uniq_tags = [...new Set(all_tags)];
+                let uniq_tags = [...new Set(all_tags)].sort();
                 for (i=0; i < uniq_tags.length; i++) {
+                  let this_tag = uniq_tags[i].slice(1);
+
                   let new_tag = document.createElement("span")
                   new_tag.classList.add("post-tag")
-                  new_tag.innerHTML = uniq_tags[i].slice(1);
-                  post_tags.appendChild(new_tag)
+                  new_tag.innerHTML = this_tag;
+
+                  let new_link = document.createElement("a")
+                  new_link.href = "/tags/" + this_tag;
+
+                  new_link.appendChild(new_tag);
+                  post_tags.appendChild(new_link)
                 }
               }, // action
             }, // save-button
