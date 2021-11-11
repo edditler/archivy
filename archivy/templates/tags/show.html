@@ -6,7 +6,7 @@
 
 <ul class="search-results">
   {% for res in search_result %}
-    <li>
+    <li class="search-result">
       <span class="search-result-path"> {{ res.dataobj.path }} > </span>
       <a href="/dataobj/{{ res.dataobj.id }}" class="search-result-title">
         {{ res.dataobj.title }}
@@ -27,7 +27,7 @@
   {% endfor %}
 
   {% for dataobj in frontmatter_results %}
-    <li>
+    <li class="search-result">
       <span class="search-result-path"> {{ dataobj.path }} > </span>
       <a href="/dataobj/{{ dataobj.id }}"  class="search-result-title">
         {{ dataobj.title }}
