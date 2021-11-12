@@ -57,7 +57,7 @@ function populate_frontmatter_tags(tags) {
         let delete_link = document.createElement("div")
         delete_link.classList.toggle("metadata-tags-remove")
         delete_link.classList.toggle("hidden")
-        delete_link.onclick = frontmatter_tag_delete(this_tag)
+        delete_link.onclick = function(){frontmatter_tag_delete(this_tag)};
         delete_link.innerHTML = "-"
 
         new_tag_span.appendChild(new_link);
@@ -73,26 +73,27 @@ frontmatter_add_tag_form.onsubmit = function(e) {
 
 // Deleting tags
 function toggle_frontmatter_tags_delete() {
-    // document.querySelectorAll(".metadata-tags-remove").forEach(el => {
-    //     el.classList.toggle("hidden")
-    // });
+    document.querySelectorAll(".metadata-tags-remove").forEach(el => {
+        el.classList.toggle("hidden")
+    });
 }
 
 function frontmatter_tag_delete(tag) {
-    // current_frontmatter_tags = current_frontmatter_tags.filter(function(value, index, arr) {
-    //     return value !== tag
-    // });
+    current_frontmatter_tags = current_frontmatter_tags.filter(function(value, index, arr) {
+        return value !== tag
+    });
 
-    // let payload = {
-    //     method: "PUT",
-    //     body: JSON.stringify({
-    //         "tags": current_frontmatter_tags,
-    //     }),
-    //     headers: {
-    //         "content-type": "application/json"
-    //     }
-    // };
+    let payload = {
+        method: "PUT",
+        body: JSON.stringify({
+            "tags": current_frontmatter_tags,
+        }),
+        headers: {
+            "content-type": "application/json"
+        }
+    };
 
-    // response = fetch(`${SCRIPT_ROOT}/dataobjs/frontmatter/${dataobj_id}`, payload);
-    // populate_frontmatter_tags(current_frontmatter_tags);
+    response = fetch(`${SCRIPT_ROOT}/dataobjs/frontmatter/${dataobj_id}`, payload);
+    populate_frontmatter_tags(current_frontmatter_tags);
+    toggle_frontmatter_tags_delete();
 }
