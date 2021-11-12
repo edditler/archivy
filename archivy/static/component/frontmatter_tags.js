@@ -1,5 +1,10 @@
-frontmatter_add_tag_form = document.querySelector("#frontmatter-add-tag");
-
+var frontmatter_add_tag_form = document.querySelector("#frontmatter-add-tag");
+var the_input = document.querySelector("#tag_frontmatter_input");
+the_input.addEventListener('keydown', function(event){
+    if(event.key === "Escape"){
+        toggle_frontmatter_tags_form()
+    }
+});
 
 function toggle_frontmatter_tags_form() {
     var frontmatter_tag_input = document.querySelector("#tag_frontmatter_input");
@@ -12,12 +17,9 @@ function toggle_frontmatter_tags_form() {
 }
 
 function submit_frontmatter_tag() {
-    let the_input = document.querySelector("#tag_frontmatter_input");
-    console.log("before " + current_frontmatter_tags)
     current_frontmatter_tags.push(the_input.value)
     current_frontmatter_tags = [...new Set(current_frontmatter_tags)].sort();
 
-    console.log("after " + current_frontmatter_tags)
     let payload = {
         method: "PUT",
         body: JSON.stringify({
@@ -27,7 +29,6 @@ function submit_frontmatter_tag() {
             "content-type": "application/json"
         }
     };
-    console.log(payload)
 
     response = fetch(`${SCRIPT_ROOT}/dataobjs/frontmatter/${dataobj_id}`, payload);
     toggle_frontmatter_tags_form();
