@@ -255,7 +255,7 @@ form {
 }
 
 #post-btns form {
-    margin: 0 10 0 0;
+    margin: 0 10px 0 0;
 }
 
 #post-btns .btn {
@@ -393,6 +393,7 @@ form {
     appearance: none;
     border-color: rgba(27,31,35,0.15);
 }
+
 .btn-primary {
     background-color: #7848bb;
     color: white;
@@ -555,4 +556,45 @@ hr {
 
 .katex-html {
   display: none
+}
+
+/* Dataobj frontmatter */
+.metadata-tags-add {
+    display: inline-block;
+}
+
+.metadata-tags-button {
+    display: inline-block;
+    background: var(--light-green);
+    padding: 4px 7px;
+    margin-right: 6px;
+    display: inline-block;
+    font-weight: bold;
+
+    padding: 0.3em 0.7em;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.metadata-tags-add-button {
+    background: var(--light-green);
+}
+
+.metadata-tags-close-button {
+    background: rgba(200, 40, 40, 0.4);
+}
+
+.metadata-tags-add-form {
+    display: inline-block;
+}
+.metadata-tags-add-form form {
+    display: inline-block;
+}
+
+#tag_frontmatter_input {
+    outline:  none;
+}
+
+.metadata-tags-remove {
+    display: inline-block;
 }
