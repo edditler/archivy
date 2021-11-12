@@ -145,8 +145,6 @@ def update_dataobj_frontmatter(dataobj_id):
         "tags": request.json.get("tags", None),
     }
 
-    print(f"{new_frontmatter=}")
-
     try:
         data.update_item_frontmatter(dataobj_id, new_frontmatter)
         return Response(status=200)
