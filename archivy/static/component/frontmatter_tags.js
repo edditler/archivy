@@ -4,8 +4,10 @@ frontmatter_add_tag_form = document.querySelector("#frontmatter-add-tag");
 function toggle_frontmatter_tags_form() {
     var frontmatter_tag_input = document.querySelector("#tag_frontmatter_input");
     document.querySelector(".metadata-tags-add-button").classList.toggle("hidden");
-    document.querySelector(".metadata-tags-add-form").classList.toggle("hidden");
-    frontmatter_tag_input.focus();
+    if (!document.querySelector(".metadata-tags-add-form").classList.toggle("hidden")) {
+        // Only focus if it was just shown
+        frontmatter_tag_input.focus();
+    }
     frontmatter_tag_input.value = "";
 }
 

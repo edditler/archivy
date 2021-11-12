@@ -584,6 +584,9 @@ hr {
     background: rgba(200, 40, 40, 0.4);
 }
 
+.metadata-tags-add-form {
+    display: inline-block;
+}
 .metadata-tags-add-form form {
     display: inline-block;
 }
