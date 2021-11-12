@@ -271,7 +271,8 @@ def update_item_frontmatter(dataobj_id, new_frontmatter):
     filename = get_by_id(dataobj_id)
     dataobj = frontmatter.load(filename)
     for key in list(new_frontmatter):
-        dataobj[key] = new_frontmatter[key]
+        if new_frontmatter[key] is not None:
+            dataobj[key] = new_frontmatter[key]
     md = frontmatter.dumps(dataobj)
     with open(filename, "w", encoding="utf-8") as f:
         f.write(md)
