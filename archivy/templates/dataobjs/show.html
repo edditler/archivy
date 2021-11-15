@@ -14,7 +14,7 @@
     <input list="titles" id="title_tooltip_input" class="floating_input" required placeholder="Title of linked note" />
     <datalist id="titles">
       {% for dataobj_title, id in titles %}
-    <option value="{{ dataobj_title }}" data-id="{{ id }}">
+        <option value="{{ dataobj_title }}" data-id="{{ id }}">
       {% endfor %}
     </datalist>
   </form
@@ -72,7 +72,7 @@
           <input list="tags" id="tag_frontmatter_input" required />
           <datalist id="tags">
             {% for tag in tag_list %}
-              <option value="#{{tag}}">
+              <option value="{{tag}}">
             {% endfor %}
           </datalist>
         </form>
