@@ -69,8 +69,8 @@
       </div>
       <div class="metadata-tags-add-form hidden">
         <form id="frontmatter-add-tag">
-          <input list="tags" id="tag_frontmatter_input" required />
-          <datalist id="tags">
+          <input list="frontmatter-tags" id="tag_frontmatter_input" required />
+          <datalist id="frontmatter-tags">
             {% for tag in tag_list %}
               <option value="{{tag}}">
             {% endfor %}
@@ -366,7 +366,11 @@
 
           // 1.
           toggle_tag_tooltip();
-          insertText(tag + "#");
+          if (tag.slice(-1) === "#") {
+            insertText(tag);
+          } else {
+            insertText(tag + "#");
+          }
 
           editor.codemirror.focus();
 
