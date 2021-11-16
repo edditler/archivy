@@ -30,9 +30,25 @@ function submit_frontmatter_tag() {
         }
     };
 
-    response = fetch(`${SCRIPT_ROOT}/dataobjs/frontmatter/${dataobj_id}`, payload);
-    toggle_frontmatter_tags_form();
-    populate_frontmatter_tags(current_frontmatter_tags);
+    fetchWithTimeout(`${SCRIPT_ROOT}/dataobjs/frontmatter/${dataobj_id}`, 3000, payload)
+    .then(function(response) {
+        if (!response.ok) {
+            alert("Updating frontmatter was not okay.");
+            console.log(response)
+        } else {
+            if (!response.status == "200") {
+                console.log("Response status was "+response.status+" with message "+response.statusText)
+            } else {
+                console.log("Response was okay!");
+                toggle_frontmatter_tags_form();
+                populate_frontmatter_tags(current_frontmatter_tags);
+            }
+        }
+    })
+    .catch(function(response) {
+        console.log(response);
+        alert("Timed out!")
+    });
 }
 
 function populate_frontmatter_tags(tags) {
