@@ -273,7 +273,7 @@
               title: "Save note contents",
               className: "fa fa-save",
               action: (editor) => {
-                fetch(`${SCRIPT_ROOT}/dataobjs/{{dataobj['id']}}`, {
+                let payload = {
                   method: "PUT",
                   body: JSON.stringify({
                     "content": editor.value()
@@ -281,32 +281,51 @@
                   headers: {
                     "content-type": "application/json"
                   }
+                };
+
+                fetchWithTimeout(`${SCRIPT_ROOT}/dataobjs/{{dataobj['id']}}`, 1, payload)
+                .then(function(response) {
+                    if (!response.ok) {
+                      alert("Saving content was not okay.");
+                      console.log(response)
+                    } else {
+                      if (!response.status == "200") {
+                        console.log("Response status was "+response.status+" with message "+response.statusText)
+                      } else {
+                        console.log("Response was okay!");
+                        statusBtn.classList.add("fa-check-circle");
+                        statusBtn.classList.remove("fa-times");
+                        savedContent = editor.value();
+                        // update dataobj tags
+                        let post_tags = document.querySelector(".embedded-tags");
+                        let matches = [...savedContent.matchAll("(?:^|\\n| )#(?:[a-zA-Z0-9_-]+)\\w")];
+                        let all_tags = []
+                        for (i=0; i < matches.length; i++) {
+                          all_tags.push(matches[i][0].trim())
+                        }
+                        post_tags.innerHTML = ""
+                        let uniq_tags = [...new Set(all_tags)].sort();
+                        for (i=0; i < uniq_tags.length; i++) {
+                          let this_tag = uniq_tags[i].slice(1);
+
+                          let new_tag = document.createElement("span")
+                          new_tag.classList.add("post-tag")
+                          new_tag.innerHTML = this_tag;
+
+                          let new_link = document.createElement("a")
+                          new_link.href = "/tags/" + this_tag;
+
+                          new_link.appendChild(new_tag);
+                          post_tags.appendChild(new_link)
+                        }
+                      }
+                    }
                 })
-                statusBtn.classList.add("fa-check-circle");
-                statusBtn.classList.remove("fa-times");
-                savedContent = editor.value();
-                // update dataobj tags
-                let post_tags = document.querySelector(".embedded-tags");
-                let matches = [...savedContent.matchAll("(?:^|\\n| )#(?:[a-zA-Z0-9_-]+)\\w")];
-                let all_tags = []
-                for (i=0; i < matches.length; i++) {
-                  all_tags.push(matches[i][0].trim())
-                }
-                post_tags.innerHTML = ""
-                let uniq_tags = [...new Set(all_tags)].sort();
-                for (i=0; i < uniq_tags.length; i++) {
-                  let this_tag = uniq_tags[i].slice(1);
+                .catch(function(response) {
+                    console.log(response);
+                    alert("Timed out!")
+                });
 
-                  let new_tag = document.createElement("span")
-                  new_tag.classList.add("post-tag")
-                  new_tag.innerHTML = this_tag;
-
-                  let new_link = document.createElement("a")
-                  new_link.href = "/tags/" + this_tag;
-
-                  new_link.appendChild(new_tag);
-                  post_tags.appendChild(new_link)
-                }
               }, // action
             }, // save-button
             {
@@ -563,4 +582,6 @@
   </script>
   <script type="text/javascript"
           src="{{ url_for('static', filename='component/frontmatter_tags.js') }}"></script>
+  <script type="text/javascript"
+          src="{{ url_for('static', filename='component/framework.js') }}"></script>
 {% endblock %}
