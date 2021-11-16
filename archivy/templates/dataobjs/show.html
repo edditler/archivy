@@ -283,7 +283,7 @@
                   }
                 };
 
-                fetchWithTimeout(`${SCRIPT_ROOT}/dataobjs/{{dataobj['id']}}`, 1, payload)
+                fetchWithTimeout(`${SCRIPT_ROOT}/dataobjs/{{dataobj['id']}}`, 3000, payload)
                 .then(function(response) {
                     if (!response.ok) {
                       alert("Saving content was not okay.");
