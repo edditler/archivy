@@ -5,6 +5,7 @@
 - Convert all tabs to spaces https://github.com/edditler/archivy/commit/2e36ffbc826a91e02d5410fd9d2dbeee7d064c71
 - Changes to the tag system https://github.com/edditler/archivy/commits/tag_improvements
 - Timeouts on saving and adding frontmatter tags https://github.com/edditler/archivy/tree/fetch_handling
+- Render a note with title "Index" in the folder overview (home.html)
 
 
 # Archivy
