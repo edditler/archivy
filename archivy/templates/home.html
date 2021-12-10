@@ -6,6 +6,9 @@
     <ul id="searchHits"></ul>
 {% endif %}
 
+{% if index_html %}
+  <div id="content" class="folder-index"></div>
+{% endif %}
 <div id="files">
     {% if not view_only %}
         <div class="d-flex" id="main-links">
@@ -72,6 +75,20 @@
     {% include "markdown-parser.html" %}
 {% endif %}
 <script>
+    // escape text for template literal - double slashes for python rendering and js rendering
+    /* {% set content = index_html
+                          | replace("\\", "\\\\")
+                          | replace("`", "\\`")
+                          | replace("${", "\\${")
+                          | safe
+       %} */
+    // Render the content with TOC
+    let contentDiv = document.getElementById("content");
+    function renderContent(content) {
+      return window.parser.customRender(content);
+    }
+    contentDiv.innerHTML = renderContent(`{{ content }}`);
+
   // search functionality
   {% if search_enabled %}  
     function sanitize_match_html(rendered, q)

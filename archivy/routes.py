@@ -60,6 +60,11 @@ def index():
         flash("Directory does not exist.", "error")
         return redirect("/")
 
+    index_html = False
+    for f in files.child_files:
+        if f["title"] == "Index":
+            index_html = f.content
+
     return render_template(
         "home.html",
         title=path or "root",
@@ -71,6 +76,7 @@ def index():
         rename_form=forms.RenameDirectoryForm(),
         view_only=0,
         search_engine=app.config["SEARCH_CONF"]["engine"],
+        index_html=index_html,
     )
 
 
@@ -147,7 +153,7 @@ def show_tag(tag_name):
     # Include the path in the search results
     search_results = search(f"#{tag_name}#", strict=True)
     for s in search_results:
-        s['dataobj'] = data.get_item(s['id'])
+        s["dataobj"] = data.get_item(s["id"])
 
     # Take the frontmatter results as they are
     frontmatter_results = get_databoj_with_tag(tag_name)
