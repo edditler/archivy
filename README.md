@@ -6,6 +6,9 @@
 - Changes to the tag system https://github.com/edditler/archivy/commits/tag_improvements
 - Timeouts on saving and adding frontmatter tags https://github.com/edditler/archivy/tree/fetch_handling
 - Render a note with title "Index" in the folder overview (home.html)
+- `default_bookmarks`
+    - This way already there. ~~Define a default folder for creating bookmarks via the editor~~
+    - Exclude default folder from search
 
 
 # Archivy

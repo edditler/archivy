@@ -102,7 +102,21 @@ def query_ripgrep(query):
     if not which("rg"):
         return None
 
-    rg_cmd = ["rg", RG_MISC_ARGS, RG_FILETYPE, "--json", query, str(get_data_dir())]
+    default_dir = current_app.config.get("DEFAULT_BOOKMARKS_DIR", "root directory")
+    if default_dir == "root directory":
+        rg_cmd = ["rg", RG_MISC_ARGS, RG_FILETYPE, "--json", query, str(get_data_dir())]
+    else:
+        rg_cmd = [
+            "rg",
+            RG_MISC_ARGS,
+            RG_FILETYPE,
+            "--glob",
+            "!" + default_dir,
+            "--json",
+            query,
+            str(get_data_dir()),
+        ]
+
     rg = run(rg_cmd, stdout=PIPE, stderr=PIPE, timeout=60)
     output = rg.stdout.decode().splitlines()
     hits = {}
