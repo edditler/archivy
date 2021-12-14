@@ -83,11 +83,13 @@
                           | safe
        %} */
     // Render the content with TOC
-    let contentDiv = document.getElementById("content");
-    function renderContent(content) {
-      return window.parser.customRender(content);
-    }
-    contentDiv.innerHTML = renderContent(`{{ content }}`);
+    {% if content != "False" %}
+        let contentDiv = document.getElementById("content");
+        function renderContent(content) {
+          return window.parser.customRender(content);
+        }
+        contentDiv.innerHTML = renderContent(`{{ content }}`);
+    {% endif %}
 
   // search functionality
   {% if search_enabled %}  
