@@ -144,8 +144,7 @@ def show_all_tags():
 def show_tag(tag_name):
     if not app.config["SEARCH_CONF"]["enabled"] and not which("rg"):
         flash(
-            "Search (for example ripgrep) must be installed to view pages about"
-            " embedded tags.",
+            "Search (for example ripgrep) must be installed to view pages about embedded tags.",
             "error",
         )
         return redirect("/")
