@@ -53,7 +53,9 @@ def create_bookmark():
     bookmark.process_bookmark_url()
     bookmark_id = bookmark.insert()
     if bookmark_id:
-        return jsonify(bookmark_id=bookmark_id)
+        return jsonify(
+            bookmark_id=bookmark_id,
+        )
     return Response(status=400)
 
 
