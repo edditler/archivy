@@ -20,8 +20,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from archivy.models import DataObj, User
 from archivy import data, app, forms
 from archivy.helpers import get_db, write_config
-from archivy.tags import get_all_tags, get_databoj_with_tag
-from archivy.search import search
+from archivy.tags import get_all_tags
+from archivy.search import search, search_frontmatter_tags
 from archivy.config import Config
 
 import re
@@ -144,29 +144,24 @@ def show_all_tags():
 def show_tag(tag_name):
     if not app.config["SEARCH_CONF"]["enabled"] and not which("rg"):
         flash(
-            "Search (for example ripgrep) must be installed to view pages about"
-            " embedded tags.",
+            "Search (for example ripgrep) must be installed to view pages about embedded tags.",
             "error",
         )
         return redirect("/")
 
-    # Include the path in the search results
-    search_results = search(f"#{tag_name}#", strict=True)
-    for s in search_results:
-        s["dataobj"] = data.get_item(s["id"])
-
-    # Take the frontmatter results as they are
-    frontmatter_results = get_databoj_with_tag(tag_name)
-
-    n_total = len(frontmatter_results) + len(search_results)
+    results = search(f"#{tag_name}#", strict=True)
+    res_ids = set(
+        [item["id"] for item in results]
+    )  # avoid duplication of results between context-aware embedded tags and metadata ones
+    for res in search_frontmatter_tags(tag_name):
+        if res["id"] not in res_ids:
+            results.append(res)
 
     return render_template(
         "tags/show.html",
         title=f"Tags - {tag_name}",
         tag_name=tag_name,
-        search_result=search_results,
-        frontmatter_results=frontmatter_results,
-        n_total=n_total,
+        search_result=results,
     )
 
 

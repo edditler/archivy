@@ -159,15 +159,14 @@
                           | replace("\\", "\\\\")
                           | replace("`", "\\`")
                           | replace("${", "\\${")
-                          | safe
        %} */
     // Render the content with TOC
+    let content = (new DOMParser().parseFromString(`{{ content }}`, "text/html")).documentElement.textContent; // jinja escapes html characters, we render them and then they're escaped by easyMDE / markdown-it
     let contentDiv = document.getElementById("content");
     function renderContent(content) {
       return window.parser.customRender("${toc}\n\n" + content);
     }
-    contentDiv.innerHTML = renderContent(`{{ content }}`);
-
+    contentDiv.innerHTML = renderContent(content);
     {% if not view_only %}
       // Also show the editing options
       // The form for editing the front matter
@@ -191,7 +190,7 @@
       post_title_form.addEventListener("submit", update_frontmatter_callback, true);
 
       // Render the editor and put the dataobj in it
-      let editorDiv, oldContent, editor, savedContent = `{{ content }}`;
+      let editorDiv, oldContent, editor, savedContent = content;
 
       // Show the form for embedding links
       let searchHits = document.getElementById("searchHits");
@@ -344,7 +343,7 @@
           },
         });  // EasyMDE
 
-        editor.value(`{{ content }}`)
+        editor.value(content)
         editor.codemirror.setOption('mode', 'markdown');
 
         let statusBtn = document.querySelector(".status .fa");
@@ -483,8 +482,33 @@
           let note_id = note_link.replace('[[', '').replace(']]', '').split("|").at(-1);
           if (note_link === "") return;
           let currOption = document.querySelector(`option[data-id="${note_id}"]`)
-          if (!currOption) { return; }
-          insertText(note_link);
+          if (!currOption) {
+            let payload = {
+              method: "POST",
+              body: JSON.stringify({
+                "title": note_id,
+                "content": ""
+              }),
+              headers: {
+                "content-type": "application/json"
+              }
+            };
+            let note_title = note_link.replace('[[', '').replace(']]', '');
+            fetch(`${SCRIPT_ROOT}/notes`, payload).then(function(response) {
+              return response.json();
+            }).then(function(data) {
+              let option = document.createElement("option");
+              option.setAttribute("data-id", data.note_id);
+              option.innerText = note_id;
+              document.querySelector("#titles").appendChild(option);
+              note_id = data.note_id;
+              option.value = `[[${note_title}|${note_id}]]`;
+              insertText(option.value);
+            });
+          }
+          else {
+            insertText(note_link);
+          }
           toggle_link_tooltip();
         }
 
