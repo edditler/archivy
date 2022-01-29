@@ -525,13 +525,13 @@
         }
 
         title_tooltip_input.oninput = function()
-	{
-	  title_tooltip_input.focus();
-	  if (!title_tooltip_input.value.startsWith("[["))
-	  {
-	    toggle_link_tooltip();
-	    insertText(title_tooltip_input.value)
-	    editor.codemirror.focus();
+  {
+    title_tooltip_input.focus();
+    if (!title_tooltip_input.value.startsWith("[["))
+    {
+      toggle_link_tooltip();
+      insertText(title_tooltip_input.value)
+      editor.codemirror.focus();
           }
         }
 
