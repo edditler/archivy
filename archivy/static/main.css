@@ -325,6 +325,14 @@ form {
     display: inline-block;
 }
 
+.folder-tags span {
+    background: var(--light-yellow);
+    padding: 6px 7px;
+    margin-right: 6px;
+    margin-bottom: 3px;
+    display: inline-block;
+}
+
 .post-tags span {
     background: var(--light-yellow);
     padding: 4px 7px;

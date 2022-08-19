@@ -61,7 +61,12 @@ def index():
         return redirect("/")
 
     index_html = False
+    tag_cloud = []
     for f in files.child_files:
+        for tag in f["tags"]:
+            if tag not in tag_cloud:
+                tag_cloud.append(tag)
+
         if f["title"] == "Index":
             index_html = f.content
 
@@ -77,6 +82,7 @@ def index():
         view_only=0,
         search_engine=app.config["SEARCH_CONF"]["engine"],
         index_html=index_html,
+        tag_cloud=tag_cloud,
     )
 
 
