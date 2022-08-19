@@ -86,6 +86,7 @@
         </div>
         <div id="page">
             {% if current_user.is_authenticated %}
+                <div class="sidebar-toggle" onclick="closeSidebar();">◀</div>
                 <div class="sidebar">
                     {{ draw_dir(dataobjs, 0) }}
                 </div>
@@ -149,6 +150,25 @@
             }
 
           }
+
+          function openSidebar() {
+            document.getElementsByClassName("sidebar")[0].style.display = "block";
+            document.getElementsByClassName("content")[0].style.marginLeft = "0px";
+
+            document.getElementsByClassName("sidebar-toggle")[0].style.left = "calc(22% - 45px)";
+            document.getElementsByClassName("sidebar-toggle")[0].innerHTML = "◀";
+            document.getElementsByClassName("sidebar-toggle")[0].onclick = closeSidebar;
+          }
+
+          function closeSidebar() {
+            document.getElementsByClassName("sidebar")[0].style.display = "none";
+            document.getElementsByClassName("content")[0].style.marginLeft = "50px";
+
+            document.getElementsByClassName("sidebar-toggle")[0].style.left = "0";
+            document.getElementsByClassName("sidebar-toggle")[0].innerHTML = "▶";
+            document.getElementsByClassName("sidebar-toggle")[0].onclick= openSidebar;
+          }
+
         </script>
     </body>
 </html>
