@@ -154,6 +154,7 @@
           function openSidebar() {
             document.getElementsByClassName("sidebar")[0].style.display = "block";
             document.getElementsByClassName("content")[0].style.marginLeft = "0px";
+            document.getElementsByClassName("content")[0].style.width = "60%";
 
             document.getElementsByClassName("sidebar-toggle")[0].style.left = "calc(22% - 45px)";
             document.getElementsByClassName("sidebar-toggle")[0].innerHTML = "◀";
@@ -167,6 +168,7 @@
             document.getElementsByClassName("sidebar-toggle")[0].style.left = "0";
             document.getElementsByClassName("sidebar-toggle")[0].innerHTML = "▶";
             document.getElementsByClassName("sidebar-toggle")[0].onclick= openSidebar;
+            document.getElementsByClassName("content")[0].style.width = "auto";
           }
 
         </script>
